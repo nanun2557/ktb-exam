@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"product-service/handlers"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -39,9 +40,16 @@ func main() {
 func setupEcho() *echo.Echo {
 	e := echo.New()
 	e.Logger.SetLevel(log.INFO)
-	e.GET("/", func(c echo.Context) error {
-		time.Sleep(5 * time.Second)
-		return c.JSON(http.StatusOK, "OK")
-	})
+
+	// r := repository.New(db)
+	// s := services.New(r)
+	// h := handlers.New(s)
+
+	handlers.SetDefault(e)
+
+	// e.GET("/", func(c echo.Context) error {
+	// 	time.Sleep(5 * time.Second)
+	// 	return c.JSON(http.StatusOK, "OK")
+	// })
 	return e
 }
