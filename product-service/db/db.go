@@ -13,14 +13,11 @@ import (
 func NewMySql(c configs.MySqlConfiguration) (*sql.DB, error) {
 
 	uri := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", c.Username, c.Password, c.Host, c.Port, c.DbName)
-	// fmt.Println("mysql-uri: ", uri)
-
 	db, err := sql.Open("mysql", uri)
 	if err != nil {
 		// return nil, err
 		panic(err)
 	}
-
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)

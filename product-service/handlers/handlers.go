@@ -18,9 +18,19 @@ func New(s *services.Services) *Handlers {
 
 func SetDefault(e *echo.Echo) {
 
-	// e.GET("/", func(c echo.Context) error {
-	// 	return c.Render(http.StatusOK, "data", configs.Auth0Config)
-	// })
 	e.GET("/healthcheck", HealthCheckHandler)
-	// e.GET("/swagger/*", echoSwagger.WrapHandler)
+
+}
+
+// unc SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {
+func SetApi(e *echo.Echo, h *Handlers) {
+	g := e.Group("/api/v1")
+	// g.Use(m)
+
+	// Product
+	g.GET("/product", h.ProductHandler.GetProducts)
+	g.POST("/product", h.ProductHandler.CreateProduct)
+	g.PUT("/product", h.ProductHandler.UpdateProductById)
+	g.DELETE("/product/:id", h.ProductHandler.DeleteProductById)
+
 }
