@@ -5,14 +5,17 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"product-service/configs"
+	"product-service/db"
 	"product-service/handlers"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 )
 
-const defaultPort = "4000"
+var defaultPort string
 
 func main() {
 	// Setup ----------------------------------------------------------
@@ -38,8 +41,19 @@ func main() {
 }
 
 func setupEcho() *echo.Echo {
+
+	// load config from config.yaml
+	config := configs.LoadConfig()
+	defaultPort = strconv.Itoa(config.App.Port)
+
 	e := echo.New()
-	e.Logger.SetLevel(log.INFO)
+	e.Logger.SetLevel(log.Lvl(config.Log.Level))
+
+	db, err := db.NewMySql(config.MySql)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
 	// r := repository.New(db)
 	// s := services.New(r)

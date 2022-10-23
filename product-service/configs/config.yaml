@@ -1,0 +1,15 @@
+app:
+  env: "development"
+  port: 4000
+  debug: true
+
+mysql:
+  username: "admin"
+  password: "admin1234"
+  host: "localhost"
+  port: 3306
+  dbname: product
+
+log:
+  level: 1 # 1=debug, 2=info
+  format: "json"
