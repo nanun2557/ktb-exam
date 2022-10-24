@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"product-service/cache"
 	"product-service/configs"
 	"product-service/db"
 	"product-service/handlers"
@@ -15,6 +16,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 )
@@ -36,8 +38,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	cache := cache.New(config.Redis)
+
 	// Setup echo -------------------------------------------------------
-	e := setupEcho(db)
+	e := setupEcho(db, cache)
 
 	// Start server ----------------------------------------------------------
 	go func() {
@@ -61,13 +65,13 @@ func main() {
 	}
 }
 
-func setupEcho(db *sql.DB) *echo.Echo {
+func setupEcho(db *sql.DB, cache *redis.Client) *echo.Echo {
 
 	e := echo.New()
 	e.Logger.SetLevel(log.Lvl(config.Log.Level))
 	logger.SetLogger(e, config.App.Env) // middleware -- logger
 
-	r := repository.New(db)
+	r := repository.New(db, cache)
 	s := services.New(r)
 	h := handlers.New(s)
 

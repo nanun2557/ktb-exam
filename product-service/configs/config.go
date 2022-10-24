@@ -9,6 +9,7 @@ import (
 type Configuration struct {
 	App   AppConfiguration
 	MySql MySqlConfiguration
+	Redis RedisConfiguration
 	Log   LogConfiguration
 }
 
@@ -24,6 +25,13 @@ type MySqlConfiguration struct {
 	Host     string
 	Port     int
 	DbName   string
+}
+
+type RedisConfiguration struct {
+	Username string
+	Password string
+	Address  string
+	Db       int
 }
 
 type LogConfiguration struct {

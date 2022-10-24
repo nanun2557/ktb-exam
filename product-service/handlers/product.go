@@ -52,7 +52,7 @@ func (h *ProductHandler) UpdateProductById(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.Error{Message: "args is invalid"})
 	}
 
-	r, err := h.ProductService.UpdateProductById(p)
+	err := h.ProductService.UpdateProductById(p)
 	if err == sql.ErrNoRows {
 		return c.JSON(http.StatusNotFound, utils.Error{Message: "not found"})
 	} else if err != nil {
@@ -60,7 +60,7 @@ func (h *ProductHandler) UpdateProductById(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, utils.Error{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, r)
+	return c.JSON(http.StatusOK, "update successfully")
 }
 
 func (h *ProductHandler) DeleteProductById(c echo.Context) error {

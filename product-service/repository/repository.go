@@ -2,17 +2,21 @@ package repository
 
 import (
 	"database/sql"
+
+	"github.com/go-redis/redis/v8"
 )
 
 type Repository struct {
 	DB          *sql.DB
+	Cache       *redis.Client
 	ProductRepo ProductRepo
 }
 
-func New(db *sql.DB) *Repository {
+func New(db *sql.DB, cache *redis.Client) *Repository {
 	return &Repository{
 		DB:          db,
-		ProductRepo: &ProductRepoContext{db},
+		Cache:       cache,
+		ProductRepo: &ProductRepoContext{db, cache},
 	}
 }
 
