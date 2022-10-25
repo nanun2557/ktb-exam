@@ -1,0 +1,10 @@
+// --- create container
+docker-compose up -d
+
+// --- create topic
+docker exec --interactive --tty broker \
+kafka-console-producer --bootstrap-server broker:9092 \
+                       --topic quickstart
+
+// ---  Stop container
+docker-compose down

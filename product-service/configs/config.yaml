@@ -13,7 +13,7 @@ mysql:
 redis:
   username: "default"
   password: "redispw"
-  address: "localhost:55000"
+  address: "localhost:55001"
   db: 0
 
 log:

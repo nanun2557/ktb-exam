@@ -133,7 +133,7 @@ func (r *ProductRepoContext) SetCache(ctx context.Context, key string, value int
 
 func (r *ProductRepoContext) GetCache(ctx context.Context, key string, dest interface{}) error {
 	result := r.cache.Get(ctx, key)
-	if result.Val() == redis.Nil.Error() {
+	if result.Val() == "" {
 		return errors.New("not found key")
 	}
 
@@ -141,6 +141,7 @@ func (r *ProductRepoContext) GetCache(ctx context.Context, key string, dest inte
 	if err != nil {
 		return err
 	}
+
 	err = json.Unmarshal(data, &dest)
 	if err != nil {
 		return err

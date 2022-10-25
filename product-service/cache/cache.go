@@ -21,5 +21,6 @@ func New(c configs.RedisConfiguration) *redis.Client {
 	if err != nil {
 		fmt.Println("connect redis fail: ", pong, err)
 	}
+	fmt.Println("connect redis successfully")
 	return cache
 }
